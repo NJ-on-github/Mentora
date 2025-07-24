@@ -7,6 +7,7 @@ import ProfileDropdown from './ProfileDropdown';
 import Logo from './Logo';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { MoveRight } from 'lucide-react';
 
 function Header() {
   const {isLoggedIn} = useContext(AuthContext)
@@ -75,25 +76,11 @@ function Header() {
     );
 
     //if not login the display this login button
-    const loginBtn = (<div className="login bg-gradient-to-bl from-indigo-100 to-transparent backdrop-blur-3xl rounded-full py-1 pb-1.5 px-3 border border-gray-300 transition duration-300 hover:text-indigo-500 hover:scale-105">
+    const loginBtn = (<div className="login bg-gradient-to-bl from-tertiary-100 to-secondary-100 backdrop-blur-3xl rounded-xl py-1 pb-1.5 px-4 border border-m-gray-200 transition duration-300 hover:text-info-500 hover:scale-105">
           <NavLink className="flex items-center justify-end gap-1" to="/login">
             Login
             <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-move-right -mb-1"
-              >
-                <path d="M18 8L22 12L18 16" />
-                <path d="M2 12H22" />
-              </svg>
+              <MoveRight />
             </span>
           </NavLink>
         </div>);
