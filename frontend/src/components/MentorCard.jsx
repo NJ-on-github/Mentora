@@ -4,9 +4,8 @@ import { Calendar, Star } from 'lucide-react';
 import SkillTag from './SkillTag';
 import { useNavigate } from 'react-router-dom';
 
-function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, nextAvailable }) {
+function MentorCard({ name, title, rating, sessions=[], skills = [], hourlyRate, nextAvailable, username, id }) {
   const currency = "₹";
-
   const navigateToProfile = useNavigate();
   const navigateToBookSession = useNavigate();
 
@@ -43,17 +42,17 @@ function MentorCard({ name, title, rating, sessions, skills = [], hourlyRate, ne
         <div className="flex justify-between">
           <span className="text-gray-500">Next Available</span>
           <span className={`${nextAvailable ? 'text-green-500' : 'text-red-500'} font-semibold`}>
-            {nextAvailable || 'Not Available'}
+            {nextAvailable?"Available Today":'Not Available'}
           </span>
         </div>
       </div>
 
       {/* Action Buttons */}
       <div className="flex justify-between items-center gap-3 mt-6">
-        <button onClick={()=>navigateToProfile('/view-mentor/:username')} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
+        <button onClick={()=>navigateToProfile('/view-mentor/'+username)} className="border border-gray-400 text-gray-700 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-gray-100">
           View Profile
         </button>
-        <button onClick={()=>navigateToBookSession('/book-session/:id')} className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
+        <button onClick={()=>navigateToBookSession('/book-session/'+username+'/'+id)} className="bg-indigo-600 text-white flex items-center gap-2 px-5 py-1.5 rounded-lg transition-all ease-in-out hover:bg-indigo-700">
           <Calendar size={20} />
           Book Now
         </button>

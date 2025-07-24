@@ -75,8 +75,10 @@ const createUser = async (req, res) => {
       password: hashedPassword,
       role: role,
     });
+    
     console.log("User created");
-    return res.status(201).json({ message: "User created", user });
+     req.body = { usernameORemail:email, password }; 
+    return await loginUser(req, res);
   } catch (error) {
     console.log("error in user creation :", error);
     console.log("User not created")
@@ -102,17 +104,18 @@ const loginUser = async (req, res) => {
     : { username: cleanedInput };
 
   try {
-    const mentor = await MentorUser.findOne(searchQuery).select("+password");
-    const mentee = await MenteeUser.findOne(searchQuery).select("+password");
-
-    const user = mentee || mentor;
-
+    const user = await MentorUser.findOne(searchQuery).select("+password") || await MenteeUser.findOne(searchQuery).select("+password");
+    
+    console.log(user);
+    
     if (!user) {
+      console.log('err');
       return res.status(401).json({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log("aa gya")
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -139,12 +142,15 @@ const loginUser = async (req, res) => {
     console.log("User logged in:", user.username);
 
     return res.status(200).json({
-      message: "Login successful",user:{
-        username:user.username,
-        role:user.role,
-        email:user.email,
-        name:user.name
-      }});
+      message: "Login successful",
+      user: {
+        username: user.username,
+        role: user.role,
+        email: user.email,
+        name: user.name
+      }
+    });
+
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({ message: "Something went wrong. Please try again." });

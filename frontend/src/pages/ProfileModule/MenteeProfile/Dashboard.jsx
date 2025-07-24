@@ -1,16 +1,52 @@
-import React, { useContext } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth.context';
+import React from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/auth.context';
+import { useEffect } from 'react';
+import Loading from '../../../components/Loading';
 
 function DashboardLayout() {
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
+  const navigate = useNavigate();
 
-  const tabs = [
-    { name: "Overview", path: '' },
-    { name: "My Sessions", path: 'my-session' },
-    { name: "Favorites Mentor", path: 'my-favorite-mentor' },
-    { name: "Settings", path: 'settings' }
-  ];
+const tabs = [
+  { name: "Overview", path: '' },
+  { name: "My Sessions", path: 'my-session' },
+  // { name: "Favorites Mentor", path: 'my-favorite-mentor' },
+  ...(user.role === "Mentor" ? [{ name: "Earnings", path: 'earnings' }] : []),
+  ...(user.role === "Mentee" ? [{ name: "Favorites Mentor", path: 'my-favorite-mentor' }] : []),
+  { name: "Settings", path: 'settings' }
+];
+
+useEffect(() => {
+  const checkUser = async () => {
+    if (isLoading) return;
+
+    if (!isLoggedIn || !user.username || !user.role) {
+      navigate('/login');
+      return;
+    }
+
+    const isValid = await verifyUser(user.username, user.role);
+    if (!isValid) {
+      navigate('/login');
+    }
+  };
+
+  checkUser();
+}, [user, isLoggedIn, isLoading, navigate, verifyUser]);
+
+  if (isLoading) {
+    return (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">
+    <Loading />
+  </div>
+);
+}
+  // Show login redirect if not logged in
+  if (!isLoggedIn || !user.username) {
+    return <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">Redirecting to login...</div>;
+  }
+
 
   return (
     <div className="section-bg bg-white">

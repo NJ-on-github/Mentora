@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { User, GraduationCap, Share2, Award, Lock, Bell, Globe, Trash2, Eye, Shield } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth.context';
+import { useAuth } from '../../../context/auth.context';
 
 function Settings() {
-  const {user} = useContext(AuthContext)
+  const {user} = useAuth();
   const Navigate = useNavigate();
   const [settings, setSettings] = useState({
     currentPassword: '',
@@ -83,7 +83,7 @@ function Settings() {
           {profileSections.map((section) => {
             const IconComponent = section.icon;
             return (
-              <Link to={'/setup-profile/'+user.username+'/'+section.path}
+              <Link to={'/setup-profile/'+section.path}
                 key={section.id}
                 className="group border-2 border-gray-100 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg cursor-pointer"
                 onClick={() => handleSectionUpdate(section.id)}

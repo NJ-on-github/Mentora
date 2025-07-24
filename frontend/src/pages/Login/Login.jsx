@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from "js-cookie";
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
-import {AuthContext} from '../../context/auth.context';
+import {useAuth} from '../../context/auth.context';
 
 function Login() {
-const {login} = useContext(AuthContext)
+const {login} = useAuth()
 
   const navigate = useNavigate();
 
@@ -80,6 +80,7 @@ const {login} = useContext(AuthContext)
         console.log(response.data.user)
 login(response.data.user)
 handleRedirect();
+window.location.reload();
       } else {
         alert(response.data.message || 'Invalid credentials');
         throw new Error(response.data.message || 'Invalid credentials');

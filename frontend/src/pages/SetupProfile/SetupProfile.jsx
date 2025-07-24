@@ -2,11 +2,18 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   User, Briefcase, GraduationCap, Star,
   Link, Clock, IndianRupee,
-  ChevronLeft, ChevronRight, Save, Check,
+  ChevronLeft, ChevronRight,
   MoveRight
 } from 'lucide-react';
+import { useEffect } from 'react';
+import { useAuth } from '../../context/auth.context';
+import Loading from '../../components/Loading'
+
 
 function SetupProfile() {
+
+const { user, isLoggedIn, isLoading, verifyUser } = useAuth();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +33,7 @@ function SetupProfile() {
 
   const isBaseRoute = steps.every(step => !location.pathname.includes(step.path));
 
+
   const goToStep = (index) => {
     navigate(`/setup-profile/${steps[index].path}`);
   };
@@ -43,6 +51,49 @@ function SetupProfile() {
   };
 
 
+useEffect(() => {
+  if (!steps || steps.length === 0) {
+    document.title = 'Setup Profile';
+    return;
+  }
+
+  const currentTitle = steps[currentStepIndex]?.title;
+  document.title = currentTitle
+    ? `${currentTitle} - Setup Profile`
+    : 'Setup Profile';
+}, [currentStepIndex, steps]);
+
+
+
+useEffect(() => {
+  const checkUser = async () => {
+    if (isLoading) return;
+
+    if (!isLoggedIn || !user.username || !user.role) {
+      navigate('/login');
+      return;
+    }
+
+    const isValid = await verifyUser(user.username, user.role);
+    if (!isValid) {
+      navigate('/login');
+    }
+  };
+
+  checkUser();
+}, [user, isLoggedIn, isLoading, navigate, verifyUser]);
+
+  if (isLoading) {
+    return (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">
+    <Loading />
+  </div>
+);
+}
+  // Show login redirect if not logged in
+  if (!isLoggedIn || !user.username) {
+    return <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-3xl bg-white/30">Redirecting to login...</div>;
+  }
   
 
   return (
