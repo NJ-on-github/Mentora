@@ -114,7 +114,7 @@ npm run dev                 # opens http://localhost:5173
 | POST   | `/api/profile/rate`             | Set hourly rate                     |
 | POST   | `/api/session/initiate-session` | Create payment order + session      |
 
-## Why Recruiters Will Love This Project
+## Why Recruiters Like This Project
 
 - Full-stack with user authentication & authorization
 - Secure cookie-based JWT flow (industry standard)
@@ -133,7 +133,6 @@ npm run dev                 # opens http://localhost:5173
 - Search + filters for mentors
 - Email/SMS notifications
 - Admin dashboard
-
 
 Built with love by Nishit Jain – always open to collaboration & feedback!  
 
