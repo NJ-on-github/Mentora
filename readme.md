@@ -47,27 +47,7 @@ Perfect first big project for junior developers who want to learn how real-world
 - ESLint + Prettier
 - Environment variables management
 
-## Project Structure (Clean & Scalable)
-
-```
-/
-├── backend/
-│   ├── controllers/       Authentication, Profile, Payments
-│   ├── models/            Mongoose schemas (Mentor, Mentee, Session, Review…)
-│   ├── routes/            Express routers
-│   ├── middlewares/       verifyToken, multer, Cloudinary upload
-│   └── server.js
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/    Reusable UI (Avatar, MentorCard, Loading…)
-│   │   ├── pages/         Home, Browse Mentors, Setup Profile wizard
-│   │   ├── context/       Auth context
-│   │   └── utils/         Axios instance with token refresh
-│   └── dist/              Production build (served by Netlify)
-```
-
-## How to Run Locally (Beginner Friendly)
+## How to Run Locally
 
 ### 1. Clone the repo
 ```bash
@@ -97,10 +77,6 @@ npm install
 npm run dev                 # opens http://localhost:5173
 ```
 
-### 4. Start Mentoring!
-1. Register as Mentor → Complete profile wizard
-2. Register as Mentee → Browse mentors → Book a session
-3. Pay with Razorpay test card: `4111 1111 1111 1111`
 
 ## API Endpoints (Key Ones)
 
