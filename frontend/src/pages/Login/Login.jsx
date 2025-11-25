@@ -3,12 +3,12 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
 import Logo from '../../components/Logo';
 import Loading from '../../components/Loading';
-import {useAuth} from '../../context/auth.context';
+import { useAuth } from '../../context/auth.context';
 import { showToast } from '../../components/Toast';
 const api = import.meta.env.VITE_API_URL;
 
 function Login() {
-const {login} = useAuth()
+  const { login } = useAuth()
 
   const navigate = useNavigate();
 
@@ -24,8 +24,8 @@ const {login} = useAuth()
   const [isLoading, setLoading] = useState(false);
   const intervalRef = useRef(null);
 
-  
-  const handleRedirect = ()=>{
+
+  const handleRedirect = () => {
     navigate("/");
     // window.location.href = '/';
   }
@@ -76,8 +76,8 @@ const {login} = useAuth()
 
       if (response.status === 200) {
         showToast(`${response.data.message}`, "success")
-login(response.data.user)
-handleRedirect();
+        login(response.data.user)
+        handleRedirect();
       } else {
         showToast(`${response.data.message}`, "error")
         throw new Error(response.data.message || 'Invalid credentials');
@@ -89,7 +89,7 @@ handleRedirect();
       setErrorCount((prev) => prev + 1);
       if (errorCount + 1 >= 3) {
         setDisabled(true);
-        setTimer(Math.floor(Math.random()*100)); 
+        setTimer(Math.floor(Math.random() * 100));
       }
     } finally {
       setLoading(false);
@@ -155,29 +155,41 @@ handleRedirect();
 
           <button
             type="submit"
-            className={`w-full py-2 rounded-lg text-white font-semibold transition ${
-              disabled
+            className={`w-full py-2 rounded-lg text-white font-semibold transition ${disabled
                 ? 'bg-gray-200 cursor-not-allowed'
                 : 'bg-black hover:bg-black/80'
-            }`}
+              }`}
             disabled={disabled}
           >
             {isLoading ? <Loading /> : 'Login'}
           </button>
-          <div className='border border-gray-400 py-2 px-5 rounded-xl bg-gradient-to-br from-red-50 to-green-50 text-sm'>
+          <div className='border border-gray-400 py-2 px-5 rounded-xl bg-gradient-to-br from-red-50 to-green-50 text-sm flex flex-col space-y-3'>
             <div>
-              <p className='font-bold text-black'>Mentee</p>
+              <p className='font-bold text-xl text-black'>For recruiters</p>
+             
+                <p className='font-bold text-black'>Demo Credentials (for testing only)</p>
+                <p className='text-gray-700'>Mentora connects students with experienced mentors through a seamless booking and session management system.
+                  Use the demo credentials below to explore:</p>
+              </div>
+              <div>
+
+              <p className='font-bold text-black'>Mentee (Learner)</p>
               <ul>
-                <li>username : narayansingh5774</li>
-                <li>password : Narayan@123</li>
+                <li>Email : James@example.com</li>
+                <li>Password : learner123</li>
               </ul>
-            </div>
+              </div>
+            
             <div>
               <p className='font-bold text-black'>Mentor</p>
               <ul>
-                <li>username : rohit1248</li>
-                <li>password : Rohit@123</li>
+                <li>Email : davidmentor@mentora.com</li>
+                <li>Password : admin123</li>
               </ul>
+            </div>
+            <p  className='text-gray-500'>Registrations are disabled for this public demo</p>
+            <div>
+              <a className='text-blue-500 text-underline' href="https://github.com/NJ-on-github/Mentora">Github source code</a>
             </div>
           </div>
 
